@@ -1,0 +1,22 @@
+{
+  "name": "mern-sample-auth-page",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.1",
+    "express": "~4.16.1",
+    "express-async-handler": "^1.2.0",
+    "hbs": "~4.0.4",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.4.1",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.18"
+  }
+}
