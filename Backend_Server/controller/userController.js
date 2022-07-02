@@ -35,11 +35,11 @@ module.exports = {
 
   authUser: asyncHandler(async (req, res) => {
     const { email, password } = req.body
-
     const User = await user.findOne({ email })
 
+    console.log(User);
+
     const checkStatus = () => {
-      console.log(User.status, "Statttt");
       if (User.status) {
         return true
       } else {
@@ -57,6 +57,7 @@ module.exports = {
     } else {
       res.status(400)
       throw new Error('Invalid Email or Password...!')
+      res.send('Hi')
     }
 
   }),
@@ -95,17 +96,17 @@ module.exports = {
       name,
       email,
       password,
-    }).then(({_id,name, email, status})=>{
+    }).then(({ _id, name, email, status }) => {
       res.status(200).json({
         _id: _id,
         name: name,
         email: email,
-        status:status,
+        status: status,
         token: generateToken(_id)
       })
     })
     // if (User) {
-      
+
     // } else {
     //   res.status(400)
     //   throw new Error('Error...!')
