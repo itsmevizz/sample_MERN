@@ -2,7 +2,7 @@ const { response } = require('express');
 const asyncHandler = require('express-async-handler')
 const user = require("../models/userModel");
 const generateToken = require('../utils/genarateToken')
-var objectId = require("mongodb").ObjectId;
+const  objectId = require("mongodb").ObjectId;
 
 module.exports = {
   registerUser: asyncHandler(async (req, res, next) => {
@@ -59,6 +59,7 @@ module.exports = {
     }
 
   }),
+  
   getUserData: asyncHandler(async (req, res) => {
     const users = await user.find({ user })
     res.json({

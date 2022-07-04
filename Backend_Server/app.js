@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const  connectDB = require('./bin/db')
+require('dotenv').config({path:'./.env'})
 
 const userRouter = require('./routes/users');
 const adminRouter = require('./routes/admin');
@@ -14,13 +15,24 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+app.use((req, res, next) => {
+  if (!req.user) {
+    res.header(
+      "Cache-Control",
+      "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+    );
+  }
+  next();
+});
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-require('dotenv').config({path:'./.env'})
 connectDB()
+
+
 
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
