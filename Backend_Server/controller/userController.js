@@ -55,9 +55,7 @@ module.exports = {
       })
       console.log({ token: generateToken(User._id) });
     } else {
-      res.status(400)
       throw new Error('Invalid Email or Password...!')
-      res.send('Hi')
     }
 
   }),
