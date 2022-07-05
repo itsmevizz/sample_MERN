@@ -67,6 +67,7 @@ module.exports = {
     })
   }),
   blockUser: asyncHandler(async (req, res) => {
+    console.log(req.body);
     const { _id } = req.body
     const User = await user.findOne({ _id }).catch(() => { throw new Error('User Not found') })
     await User.updateOne({
@@ -75,6 +76,7 @@ module.exports = {
     res.json({ User })
   }),
   unBlockUser: asyncHandler(async (req, res) => {
+    console.log(req.body);
     const { _id } = req.body
     const User = await user.findOne({ _id }).catch(() => { throw new Error('User Not found') })
     await User.updateOne({
