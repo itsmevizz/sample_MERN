@@ -2,7 +2,7 @@ const { response } = require('express');
 const asyncHandler = require('express-async-handler')
 const user = require("../models/userModel");
 const generateToken = require('../utils/genarateToken')
-const  objectId = require("mongodb").ObjectId;
+const objectId = require("mongodb").ObjectId;
 
 module.exports = {
   registerUser: asyncHandler(async (req, res, next) => {
@@ -13,7 +13,7 @@ module.exports = {
 
     if (userExists) {
       res.status(400);
-      throw new Error("User Exists");
+      throw new Error("User Already Exists");
     }
     const User = await user.create({
       name,
@@ -21,12 +21,14 @@ module.exports = {
       password,
     });
     if (User) {
-      res.status(200).json({
-        _id: User._id,
-        name: User.name,
-        email: User.email,
-        token: generateToken(User._id)
-      })
+      res.status(200)
+      res.send("Account is Activated")
+      // .json({
+      //   _id: User._id,
+      //   name: User.name,
+      //   email: User.email,
+      //   token: generateToken(User._id)
+      // })
     } else {
       res.status(400)
       throw new Error('Error...!')
@@ -59,7 +61,7 @@ module.exports = {
     }
 
   }),
-  
+
   getUserData: asyncHandler(async (req, res) => {
     const users = await user.find({ user })
     res.json({

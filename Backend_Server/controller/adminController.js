@@ -7,7 +7,7 @@ module.exports = {
         console.log(req.body);
         if(name === process.env.ADMIN_USER_ID && password === process.env.ADMIN_PASS){
             const token =generateToken("183153")
-            res.cookie("token",token, { maxAge: 60000, })
+            res.cookie("token",token, { maxAge: 900000, })
             res.json("success")
 
         }else{

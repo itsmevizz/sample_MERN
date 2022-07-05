@@ -7,7 +7,7 @@ const verifyJwt = asyncHandler((req, res, next) => {
     jwt.verify(token.token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
             // res.json({error:"Token mismatch"})
-            throw new Error("Token mismatch");
+            throw new Error("Token not vallid");
         } else {
             next()
         }
