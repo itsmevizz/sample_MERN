@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { ShowUsersContext } from "../Home/Modal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 //Datatable Modules
 import "datatables.net-dt/js/dataTables.dataTables";
@@ -11,6 +12,7 @@ import $ from "jquery";
 function Home() {
   const [userList, setUserList] = useState([]);
   const [change, setIsChange] = useState(true);
+  const [error, setError] = useState("");
   const navigation = useNavigate();
   useEffect(() => {
     setTimeout(function(){
@@ -27,48 +29,100 @@ function Home() {
           }
         })
         .catch((err) => {
+          console.log(err,'This is err');
           navigation("/admin");
         });
     };
     info();
   }, [change]);
 
-  const BlockUser = (id) => {
-    axios({
-      method: "patch",
-      url: "/admin/blockUser",
-      data: {
-        _id: id,
-      },
+  const BlockUser = (id, name) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      // text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Block!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios({
+          method: "patch",
+          url: "/admin/blockUser",
+          data: {
+            _id: id,
+          },
+        })
+          .then(() => {
+            console.log(" Block Succerr");
+            change ? setIsChange(false) : setIsChange(true);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'User Blocked',
+              showConfirmButton: false,
+              timer: 1000
+            })
+          })
+          .catch((err) => {
+            setError(err.response.data.message)
+            console.log("Block Errrr");
+          });
+      
+      }
     })
-      .then(() => {
-        console.log(" Block Succerr");
-        change ? setIsChange(false) : setIsChange(true);
-      })
-      .catch(() => {
-        console.log("Block Errrr");
-      });
+   
   };
 
   const unBlockUser = (id) => {
-    axios({
-      method: "patch",
-      url: "/admin/unBlockUser",
-      data: {
-        _id: id,
-      },
+    Swal.fire({
+      title: 'Are you sure?',
+      // text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Activate!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios({
+          method: "patch",
+          url: "/admin/unBlockUser",
+          data: {
+            _id: id,
+          },
+        })
+          .then(() => {
+            console.log(" unBlock Succerr");
+            change ? setIsChange(false) : setIsChange(true);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'User activated',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          })
+          .catch((err) => {
+            setError(err.response.data.message)
+            console.log("unblock Errrr");
+          });
+       
+      }
     })
-      .then(() => {
-        console.log(" unBlock Succerr");
-        change ? setIsChange(false) : setIsChange(true);
-      })
-      .catch(() => {
-        console.log("unblock Errrr");
-      });
+    
   };
 
   return (
     <div className="card">
+       {error ? (
+              <div class="alert alert-danger" role="alert">
+                {error}
+              </div>
+            ) : (
+              ""
+            )}
       <h5 className="card-header">User List</h5>
       <div className="table-responsive text-nowrap">
         <table  id="example" className=" table">
@@ -111,9 +165,9 @@ function Home() {
                       className={user.status?"btn btn-sm btn-danger" :"btn btn-sm btn-info" }
                       onClick={() => {
                         if (user.status) {
-                          BlockUser(user._id);
+                          BlockUser(user._id, user.name);
                         } else {
-                          unBlockUser(user._id);
+                          unBlockUser(user._id,user.name);
                         }
                       }}
                     >

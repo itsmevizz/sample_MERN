@@ -9,6 +9,7 @@ import AddUser from "../AddUser/AddUser";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import Swal from 'sweetalert2'
 
 function SideNabar() {
 
@@ -23,13 +24,25 @@ function SideNabar() {
   }, []);
 
   const logOut = () => {
-    axios({
-      method: "post",
-      url: "/admin/admin_logout",
-    }).then(() => {
-      // Cookies.remove("token")
-      navigate("/admin");
-    });
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You will be return to the login screen!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes,Logout!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios({
+          method: "post",
+          url: "/admin/admin_logout",
+        }).then(() => {
+          // Cookies.remove("token")
+          navigate("/admin");
+        });
+      }
+    })
   };
 
   return (
@@ -81,7 +94,7 @@ function SideNabar() {
               <div className="navbar-nav align-items-center">
                 <div className="nav-item d-flex align-items-center">
                   <i className="bx bx-search fs-4 lh-0"></i>
-                  
+
                 </div>
               </div>
 

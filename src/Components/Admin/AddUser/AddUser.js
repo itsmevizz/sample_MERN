@@ -59,7 +59,7 @@ function AddUser() {
 
       await axios
         .post(
-          "/signup",
+          "/admin/addUser",
           {
             name,
             email,
