@@ -9,6 +9,7 @@ router.get('/userData',verifyJwt, userController.getUserData)
 router.patch('/blockUser',verifyJwt, userController.blockUser)
 router.patch('/unBlockUser',verifyJwt, userController.unBlockUser)
 router.post('/addUser',verifyJwt, userController.addUser)
+router.post('/addUser', verifyJwt,userController.registerUser)
 router.post('/admin_login', adminController.login)
 router.post('/admin_logout', adminController.logout)
 module.exports = router;

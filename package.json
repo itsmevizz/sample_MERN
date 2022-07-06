@@ -6,6 +6,10 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.6",
     "@mui/styled-engine-sc": "^5.8.0",
-    "styled-components": "^5.3.5"
+    "gh-pages": "^4.0.0",
+    "save-dev": "^0.0.1-security",
+    "styled-components": "^5.3.5",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }
