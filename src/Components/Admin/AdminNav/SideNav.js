@@ -8,21 +8,18 @@ import Home from "../Home/Home";
 import AddUser from "../AddUser/AddUser";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import Swal from 'sweetalert2'
 
 function SideNabar() {
 
   const navigate = useNavigate();
   const [addUser, setAddUserOpen] = useState(false);
-
   useEffect(() => {
-    const token = Cookies.get("token");
+    const token = sessionStorage.getItem("Token")
     if (!token) {
       navigate("/admin");
     }
   }, []);
-
   const logOut = () => {
     Swal.fire({
       title: 'Are you sure?',
@@ -34,11 +31,11 @@ function SideNabar() {
       confirmButtonText: 'Yes,Logout!'
     }).then((result) => {
       if (result.isConfirmed) {
+        sessionStorage.clear()
         axios({
           method: "post",
           url: "/admin/admin_logout",
         }).then(() => {
-          // Cookies.remove("token")
           navigate("/admin");
         });
       }

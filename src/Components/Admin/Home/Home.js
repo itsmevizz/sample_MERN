@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { ShowUsersContext } from "../Home/Modal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
@@ -10,6 +9,7 @@ import "datatables.net-dt/css/jquery.dataTables.min.css";
 import $ from "jquery";
 
 function Home() {
+  const authToken = sessionStorage.getItem("Token") 
   const [userList, setUserList] = useState([]);
   const [change, setIsChange] = useState(true);
   const [error, setError] = useState("");
@@ -21,7 +21,11 @@ function Home() {
     document.title = "Admin-Home"
     const info = async () => {
       await axios
-        .get("/admin/userData")
+        .get("/admin/userData",{
+          headers:{
+            token : authToken
+          }
+        })
         .then((data) => {
           if (data) {
             const userInfo = data.data.users;
@@ -29,7 +33,6 @@ function Home() {
           }
         })
         .catch((err) => {
-          console.log(err,'This is err');
           navigation("/admin");
         });
     };
@@ -53,6 +56,9 @@ function Home() {
           data: {
             _id: id,
           },
+          headers:{
+            token : authToken
+          }
         })
           .then(() => {
             console.log(" Block Succerr");
@@ -92,6 +98,9 @@ function Home() {
           data: {
             _id: id,
           },
+          headers:{
+            token : authToken
+          }
         })
           .then(() => {
             console.log(" unBlock Succerr");

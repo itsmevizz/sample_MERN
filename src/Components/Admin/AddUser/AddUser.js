@@ -3,6 +3,7 @@ import { OpneContext } from "./Modal";
 import { ShowUsersContext } from "../Home/Modal";
 import axios from "axios";
 function AddUser() {
+  const authToken = sessionStorage.getItem("Token") 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [success, setSuccess] = useState("");
@@ -59,7 +60,11 @@ function AddUser() {
 
       await axios
         .post(
-          "/admin/addUser",
+          "/admin/addUser", {
+          headers: {
+            token: authToken
+          },
+        },
           {
             name,
             email,
@@ -110,7 +115,7 @@ function AddUser() {
             <form onSubmit={submitHandler}>
               <div className="mb-3">
                 <label className="form-label" for="basic-default-fullname">
-                   User Id
+                  User Id
                 </label>
                 <span className="text-danger ms-2">{nameErr}</span>
                 <input

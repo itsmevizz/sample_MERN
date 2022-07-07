@@ -6,9 +6,14 @@ import Login from "./Pages/LoginPage";
 import SignUpPage from "./Pages/SignUpPage";
 import AdminLogin from "./Components/Admin/Login/Login"
 import Cookies from "js-cookie";
+import { useEffect } from "react";
 const token = Cookies.get('token')??false
 
 function App() {
+
+  useEffect(()=>{
+
+  },[])
   return (
     <div>
       <Router>

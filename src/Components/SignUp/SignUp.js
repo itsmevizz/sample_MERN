@@ -5,7 +5,6 @@ import "./Signup.css"
 import "./util.css"
 
 function Login() {
-  const navigate = useNavigate()
   const inputRef = useRef()
   const navigation = useNavigate()
   const userData = localStorage.getItem('usedData')
@@ -15,7 +14,7 @@ function Login() {
     if (userData) {
       navigation('/')
     }
-  }, [])
+  }, [navigation,userData])
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");

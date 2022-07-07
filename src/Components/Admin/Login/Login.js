@@ -55,7 +55,8 @@ function Login() {
           name,
           password,
         })
-        .then(() => {
+        .then((toc) => {
+          sessionStorage.setItem("Token",toc.data.token)
           navigation("/admin/home");
         })
         .catch((err) => {
